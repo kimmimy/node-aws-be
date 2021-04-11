@@ -16,8 +16,6 @@ export const getProductById = async (event) => {
   try {
     const id = event.id || event.pathParameters ? event.pathParameters.id : null;
 
-    console.log(JSON.stringify(id));
-
     if (!id) {
       return formatJSONResponse({ data: "id wasn't passed" }, 404)
     }
@@ -27,6 +25,10 @@ export const getProductById = async (event) => {
     const bitcoin = await request('https://api.coindesk.com/v1/bpi/currentprice.json');
     
     const product = parsedJSONArray.find((productItem: Product) => productItem.id === id);
+
+    if (!product) {
+      return formatJSONResponse({ data: "product not found" }, 404);
+    }
     
     const data = {...product,bitcoin} || "product not found"
     
