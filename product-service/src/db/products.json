@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Принтер",
+    "description": "HP 1100",
+    "amount": 130,
+    "id": "1",
+    "price": 300
+  },
+  {
+    "title": "Центрефуга",
+    "description": "jk-15999",
+    "amount": 40,
+    "id": "2",
+    "price": 4300
+  },
+  {
+    "title": "Дозатор",
+    "description": "Jo-sd1",
+    "amount": 85,
+    "id": "3",
+    "price": 4000
+  },
+  {
+    "title": "Отчаститель частиц",
+    "description": "clear-bloom",
+    "amount": 105,
+    "id": "4",
+    "price": 9000
+  }
+]
