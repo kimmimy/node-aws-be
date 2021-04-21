@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-import { getProductById, getProductList} from './src/functions/index';
+import { getProductById, getProductList, createProduct } from './src/functions/index';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
@@ -8,10 +8,11 @@ const serverlessConfiguration: AWS = {
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
-      includeModules: true,
+      includeModules: { forceInclude: ['pg'] },
     },
   },
   plugins: ['serverless-webpack'],
+  useDotenv: true,
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -26,11 +27,16 @@ const serverlessConfiguration: AWS = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      DB_HOST: process.env.DB_HOST,
+      DB_PORT: process.env.DB_PORT,
+      DB_NAME: process.env.DB_NAME,
+      DB_USER: process.env.DB_USER,
+      DB_PASSWORD: process.env.DB_PASSWORD,
     },
     lambdaHashingVersion: '20201221',
   },
   // import the function via paths
-  functions: { getProductById, getProductList },
+  functions: { getProductById, getProductList, createProduct },
 };
 
 module.exports = serverlessConfiguration;
