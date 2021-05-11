@@ -12,7 +12,9 @@
   "dependencies": {
     "@middy/core": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "dotenv": "^8.2.0",
+    "pg": "^8.5.1"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",
@@ -30,7 +32,8 @@
     "webpack-node-externals": "^2.5.2",
     "@types/jest": "^26.0.22",
     "jest": "^26.6.3",
-    "ts-jest": "^26.5.4"
+    "ts-jest": "^26.5.4",
+    "@types/pg": "^7.14.11"
   },
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
   "license": "MIT"

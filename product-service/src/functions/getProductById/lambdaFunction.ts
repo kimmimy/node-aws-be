@@ -1,15 +1,14 @@
-import { formatJSONError, formatJSONResponse, parseJsonArray } from "@libs/apiGateway";
+import { formatJSONError, formatJSONResponse } from "@libs/apiGateway";
 
-import * as products from '@db/products.json';
-import { request } from "src/services/request";
+// import { request } from "src/services/request";
+
+import { getById } from '@db/databaseService';
 
 type Product = {
   title: string;
-  count: number;
   id: string;
-  "description": string,
-  "amount": number,
-  "price": number
+  description: string,
+  price: number
 }
 
 export const getProductById = async (event) => {
@@ -20,20 +19,23 @@ export const getProductById = async (event) => {
       return formatJSONResponse({ data: "id wasn't passed" }, 404)
     }
 
-    const parsedJSONArray = await parseJsonArray(products);
+    console.log('Search ID:: ', id);
+
+    // const bitcoin = await request('https://api.coindesk.com/v1/bpi/currentprice.json');
     
-    const bitcoin = await request('https://api.coindesk.com/v1/bpi/currentprice.json');
-    
-    const product = parsedJSONArray.find((productItem: Product) => productItem.id === id);
+    const product = await getById(id);
+
+    console.log('Found product', JSON.stringify(product));
 
     if (!product) {
       return formatJSONResponse({ data: "product not found" }, 404);
     }
     
-    const data = {...product,bitcoin} || "product not found"
     
-    return formatJSONResponse(data, product ? 200 : 404);
+    return formatJSONResponse(product, 200 );
   } catch (error) {
+    console.log('Error:', error);
+
     return formatJSONError(error, 404);
   }
 }

@@ -1,3 +1,3 @@
-# node-aws-be
+# Back-end AWS
 
 # monorepo - microservice

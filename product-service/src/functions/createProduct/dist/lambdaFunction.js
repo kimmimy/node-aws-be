@@ -36,34 +36,38 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getProductById = void 0;
+exports.main = exports.createProduct = void 0;
+require("source-map-support/register");
 var apiGateway_1 = require("@libs/apiGateway");
-// import { request } from "src/services/request";
+var lambda_1 = require("@libs/lambda");
 var databaseService_1 = require("@db/databaseService");
-exports.getProductById = function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, product, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+exports.createProduct = function (event) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, title, description, price, count, product, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                id = event.id || event.pathParameters ? event.pathParameters.id : null;
-                if (!id) {
-                    return [2 /*return*/, apiGateway_1.formatJSONResponse({ data: "id wasn't passed" }, 404)];
-                }
-                console.log('Search ID:: ', id);
-                return [4 /*yield*/, databaseService_1.getById(id)];
+                _b.trys.push([0, 4, , 5]);
+                console.log('Event', JSON.stringify(event));
+                _a = event.body, title = _a.title, description = _a.description, price = _a.price, count = _a.count;
+                if (!(title && description && price && count)) return [3 /*break*/, 2];
+                return [4 /*yield*/, databaseService_1.addProduct(event.body)];
             case 1:
-                product = _a.sent();
-                console.log('Found product', JSON.stringify(product));
-                if (!product) {
-                    return [2 /*return*/, apiGateway_1.formatJSONResponse({ data: "product not found" }, 404)];
-                }
-                return [2 /*return*/, apiGateway_1.formatJSONResponse(product, 200)];
-            case 2:
-                error_1 = _a.sent();
-                console.log('Error:', error_1);
-                return [2 /*return*/, apiGateway_1.formatJSONError(error_1, 404)];
-            case 3: return [2 /*return*/];
+                product = _b.sent();
+                console.log('Product was created:: ', JSON.stringify(product));
+                return [2 /*return*/, apiGateway_1.formatJSONResponse({
+                        data: product
+                    }, 201)];
+            case 2: return [2 /*return*/, apiGateway_1.formatJSONResponse({
+                    data: "Validation Error:: " + JSON.stringify(event.body)
+                }, 400)];
+            case 3: return [3 /*break*/, 5];
+            case 4:
+                error_1 = _b.sent();
+                console.log('Error::', error_1);
+                apiGateway_1.formatJSONError(error_1 || "something went wrong", 404);
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
+exports.main = lambda_1.middyfy(exports.createProduct);

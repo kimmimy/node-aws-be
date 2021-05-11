@@ -1,12 +1,16 @@
-import { formatJSONResponse, parseJsonArray, formatJSONError } from '@libs/apiGateway';
+import { formatJSONResponse, formatJSONError } from '@libs/apiGateway';
 
-import * as products from '@db/products.json';
+import { getAll } from '@db/databaseService';
 
 export const getProductList = async () => {
   try {
-    const productList = await parseJsonArray(products);
+    console.log('Start getting products:: ');
 
-    return formatJSONResponse({data: productList }, 200);
+    const products = await getAll();
+
+    console.log('Products:: ', JSON.stringify(products));
+
+    return formatJSONResponse({ data: products }, 200);
   } catch (error) {
     return formatJSONError(error || "something went wrong", 404);
   }
