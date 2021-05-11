@@ -1,15 +1,14 @@
 const AWS = require('aws-sdk');
-
-require('dotenv').config();
+const { REGION, BUCKET } = require('../contsnts');
 
 const catalogList = async () => {
-  const s3 = new AWS.S3({ region: process.env.REGION });
+  const s3 = new AWS.S3({ region: REGION });
 
   let status = 200;
   let data = [];
 
   const params = {
-    Bucket: process.env.BUCKET,
+    Bucket: BUCKET,
     Prefix: 'uploaded/',
     Delimiter: '/'
   };
@@ -28,7 +27,7 @@ const catalogList = async () => {
     headers: { 'Access-Control-Allow-Origin': '*' },
     body: JSON.stringify(data
       .filter(content => content.Size)
-      .map(catalog => `https://${process.env.BUCKET}.s3.amazonaws.com/${catalog.Key}`))
+      .map(catalog => `https://${BUCKET}.s3.amazonaws.com/${catalog.Key}`))
   };
 
   return response;

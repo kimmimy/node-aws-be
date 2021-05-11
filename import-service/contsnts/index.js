@@ -1,2 +1,7 @@
-export const BUCKET = 'rsschool-nodejs-aws-task5'
-export const REGION = 'eu-west-1';
+const BUCKET = 'tools-shop-s3'
+const REGION = 'eu-west-1';
+
+module.exports = {
+  BUCKET,
+  REGION
+}
