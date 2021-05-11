@@ -1,0 +1,12 @@
+service: rsschool-node-in-aws-s3
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: "eu-west-1"
+
+functions:
+  thumbnailsList:
+    handler: handler.thumbnailsList
+    events:
+      - http: GET thumbnails
