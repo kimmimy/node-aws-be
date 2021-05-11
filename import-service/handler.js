@@ -1,5 +1,7 @@
 const AWS = require('aws-sdk')
-const BUCKET = 'rsschool-nodejs-aws-task5'
+
+import { BUCKET } from "../contsnts"
+
 
 module.exports = {
   thumbnailsList: async function () {
