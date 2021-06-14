@@ -1,0 +1,47 @@
+service: tools-shop-s3
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "s3:ListBucket"
+      Resource:
+        - "arn:aws:s3:::tools-shop-s3/uploaded"
+        - "arn:aws:s3:::tools-shop-s3/parsed"
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource:
+        - "arn:aws:s3:::tools-shop-s3/uploaded/*"
+        - "arn:aws:s3:::tools-shop-s3/parsed/*"
+
+functions:
+  catalogList:
+    handler: handler.catalogList
+    events:
+      - http:
+          path: catalogList
+          method: get
+  fileParser:
+    handler: handler.importFileParser
+    events:
+      - s3:
+          bucket: tools-shop-s3
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true
+  catalogUpload:
+    handler: handler.catalogUpload
+    events:
+      - http:
+          path: import
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                name: true
