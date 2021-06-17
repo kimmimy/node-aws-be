@@ -18,6 +18,18 @@ provider:
         - "arn:aws:s3:::tools-shop-s3/uploaded/*"
         - "arn:aws:s3:::tools-shop-s3/parsed/*"
 
+resources:
+  Resources:
+    GatewayResponseDefault4XX:
+      Type: "AWS::ApiGateway::GatewayResponse"
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: "ApiGatewayRestApi"
+
 functions:
   catalogList:
     handler: handler.catalogList
@@ -41,6 +53,7 @@ functions:
           path: import
           method: get
           cors: true
+          # authorizer: arn:aws:lambda:eu-west-1:123335335719:function:auth-service-dev-mainAuthorizer
           request:
             parameters:
               querystrings:
