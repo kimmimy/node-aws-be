@@ -53,7 +53,7 @@ functions:
           path: import
           method: get
           cors: true
-          # authorizer: arn:aws:lambda:eu-west-1:123335335719:function:auth-service-dev-mainAuthorizer
+          authorizer: arn:aws:lambda:eu-west-1:991886398568:function:auth-service-by-token-dev-hello
           request:
             parameters:
               querystrings:
